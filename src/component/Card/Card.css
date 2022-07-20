@@ -1,0 +1,48 @@
+.divCard {
+    width: 316px;
+    height: 184px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 34px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .divCard__img {
+    width: 48px;
+    height: 48px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 48px;
+    color: #68717a;
+    margin-bottom: 18px;
+  }
+  
+  .divCard__titel {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 28px;
+    color: #000000;
+    margin-bottom: 12px;
+  }
+  
+  .divCard__desc {
+    width: 268px;
+    height: 30px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #3f444a;
+    text-align: center;
+  }
+  

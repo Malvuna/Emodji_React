@@ -1,0 +1,15 @@
+.textFooter {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  text-align: center;
+  color: #6c757d;
+}
+
+.divFooter {
+    width: 980px;
+    border-bottom: 1px solid #CED4DA;
+    margin: 50px auto 13px;
+}

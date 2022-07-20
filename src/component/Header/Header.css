@@ -1,0 +1,27 @@
+.head {
+  height: 295px;
+  background: linear-gradient(92.33deg, #087990 0.12%, #055160 100%);
+  border: 1px solid #ced4da;
+  position: relative;
+  margin-bottom: 80px;
+}
+
+.head__titel {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 72px;
+  color: #cff4fc;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.head__description {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 36px;
+  color: #cff4fc;
+  text-align: center;
+}
