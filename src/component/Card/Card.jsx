@@ -1,5 +1,4 @@
-
-export function Card({symbol, title, keywords}) {
+export function Card({ symbol, title, keywords }) {
   return (
     <div className="divCard">
       <div className="divCard__img">{symbol}</div>
