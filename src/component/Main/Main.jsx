@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card } from "../Card/Card.jsx";
 import { data } from "../../emoji.js";
+import Fuse from "fuse.js";
 
 function changeUniqKeywords() {
   return data.map((elem) => ({
@@ -14,8 +15,7 @@ export function Main() {
   const [textValue, setTextValue] = useState("");
   const changeName = (event) => setTextValue(event.target.value);
 
-  const arrValue = textValue.split(" ");
-
+  const arrValue = textValue.split(" ").filter((elem) => elem.trim());
   console.log(arrValue);
 
   return (
@@ -27,21 +27,21 @@ export function Main() {
         value={textValue}
         onChange={changeName}
       />
-      {arrValue.map((searchWord) =>
-        filterData
-          .filter(
-            (elem) =>
-              elem.title.toLowerCase().includes(searchWord) ||
-              elem.keywords.toLowerCase().includes(searchWord),
-          )
-          .map((elem) => (
-            <Card
-              symbol={elem.symbol}
-              title={elem.title}
-              keywords={elem.keywords}
-            />
-          )),
-      )}
+      {filterData
+        .filter((elem) =>
+          arrValue.every(
+            (word) =>
+              elem.title.toLowerCase().includes(word) ||
+              elem.keywords.toLowerCase().includes(word),
+          ),
+        )
+        .map((elem) => (
+          <Card
+            symbol={elem.symbol}
+            title={elem.title}
+            keywords={elem.keywords}
+          />
+        ))}
     </main>
   );
 }
