@@ -12,12 +12,24 @@ function changeUniqKeywords() {
 const filterData = changeUniqKeywords();
 
 export function Main() {
+
   const [textValue, setTextValue] = useState("");
   const changeName = (event) => setTextValue(event.target.value);
 
-  const arrValue = textValue.split(" ").filter((elem) => elem.trim());
-  console.log(arrValue);
+  // const arrValue = textValue.split(" ").filter((elem) => elem.trim());
 
+  const fuse = new Fuse(filterData, {
+    keys: ["title", "keywords"],
+  });
+
+  const results = fuse.search(textValue);
+  const filterDataResults = textValue
+    ? results.map((elem) => elem.item)
+    : filterData;
+
+  function onSearch({ currentTarget }) {
+    setTextValue(currentTarget.value);
+  }
   return (
     <main className="main">
       <input
@@ -25,23 +37,16 @@ export function Main() {
         name="search"
         placeholder="Placeholder"
         value={textValue}
-        onChange={changeName}
+        onChange={onSearch}
       />
-      {filterData
-        .filter((elem) =>
-          arrValue.every(
-            (word) =>
-              elem.title.toLowerCase().includes(word) ||
-              elem.keywords.toLowerCase().includes(word),
-          ),
-        )
-        .map((elem) => (
-          <Card
-            symbol={elem.symbol}
-            title={elem.title}
-            keywords={elem.keywords}
-          />
-        ))}
+      {filterDataResults.map((elem) => (
+        <Card
+          key={elem.title}
+          symbol={elem.symbol}
+          title={elem.title}
+          keywords={elem.keywords}
+        />
+      ))}
     </main>
   );
 }
