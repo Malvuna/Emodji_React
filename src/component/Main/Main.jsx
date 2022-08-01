@@ -1,31 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "../Card/Card.jsx";
-import { data } from "../../emoji.js";
 import Fuse from "fuse.js";
 
-function changeUniqKeywords() {
-  return data.map((elem) => ({
-    ...elem,
-    keywords: [...new Set(elem.keywords.split(" "))].join(" "),
-  }));
-}
-const filterData = changeUniqKeywords();
+// function changeUniqKeywords(emodji) {
+//   return emodji.map((elem) => ({
+//     ...elem,
+//     keywords: [...new Set(elem.keywords.split(" "))].join(" "),
+//   }));
+// }
+export function Main({emodji}) {
 
-export function Main() {
+  // const filterData = changeUniqKeywords(emodji);
 
   const [textValue, setTextValue] = useState("");
   const changeName = (event) => setTextValue(event.target.value);
 
-  // const arrValue = textValue.split(" ").filter((elem) => elem.trim());
+  const [filterDataResults, setFilterDataResults] = useState([]);
 
-  const fuse = new Fuse(filterData, {
-    keys: ["title", "keywords"],
-  });
+  
+  useEffect(() => {
+    let ignore = false;
+  
+    async function startFetching() {
+      const json = fetch("https://emoji.ymatuhin.workers.dev/?search=textValue")
+      if (!ignore) {
+        json.then((response) => response.json())
+        .then((data) => setFilterDataResults(data));
+      }
+    }
+    startFetching();
+  
+    return () => {
+      ignore = true;
+    };
+  }, [textValue]);
 
-  const results = fuse.search(textValue);
-  const filterDataResults = textValue
-    ? results.map((elem) => elem.item)
-    : filterData;
+  // const fuse = new Fuse(filterData, {
+  //   keys: ["title", "keywords"],
+  //   includeScore: false,
+  // });
+
+  // const results = fuse.search(textValue);
+  
+  // const filterDataResults = textValue
+  //   ? results.map((elem) => elem.item)
+  //   : filterData;
+    
+  const filter = filterDataResults.length > 0 ? filterDataResults : emodji
 
   function onSearch({ currentTarget }) {
     setTextValue(currentTarget.value);
@@ -39,7 +60,7 @@ export function Main() {
         value={textValue}
         onChange={onSearch}
       />
-      {filterDataResults.map((elem) => (
+      {filter.map((elem) => (
         <Card
           key={elem.title}
           symbol={elem.symbol}
