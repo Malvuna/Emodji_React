@@ -1,52 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card } from "../Card/Card.jsx";
+import { data } from "../../emoji.js";
 import Fuse from "fuse.js";
 
-// function changeUniqKeywords(emodji) {
-//   return emodji.map((elem) => ({
-//     ...elem,
-//     keywords: [...new Set(elem.keywords.split(" "))].join(" "),
-//   }));
-// }
-export function Main({emodji}) {
+function changeUniqKeywords() {
+  return data.map((elem) => ({
+    ...elem,
+    keywords: [...new Set(elem.keywords.split(" "))].join(" "),
+  }));
+}
+const filterData = changeUniqKeywords();
 
-  // const filterData = changeUniqKeywords(emodji);
-
+export function Main() {
   const [textValue, setTextValue] = useState("");
   const changeName = (event) => setTextValue(event.target.value);
 
-  const [filterDataResults, setFilterDataResults] = useState([]);
 
-  
-  useEffect(() => {
-    let ignore = false;
-  
-    async function startFetching() {
-      const json = fetch("https://emoji.ymatuhin.workers.dev/?search=textValue")
-      if (!ignore) {
-        json.then((response) => response.json())
-        .then((data) => setFilterDataResults(data));
-      }
-    }
-    startFetching();
-  
-    return () => {
-      ignore = true;
-    };
-  }, [textValue]);
+  const fuse = new Fuse(filterData, {
+    keys: ["title", "keywords"],
+    includeScore: false,
+  });
 
-  // const fuse = new Fuse(filterData, {
-  //   keys: ["title", "keywords"],
-  //   includeScore: false,
-  // });
-
-  // const results = fuse.search(textValue);
-  
-  // const filterDataResults = textValue
-  //   ? results.map((elem) => elem.item)
-  //   : filterData;
-    
-  const filter = filterDataResults.length > 0 ? filterDataResults : emodji
+  const results = fuse.search(textValue);
+  const filterDataResults = textValue
+    ? results.map((elem) => elem.item)
+    : filterData;
 
   function onSearch({ currentTarget }) {
     setTextValue(currentTarget.value);
@@ -60,7 +38,7 @@ export function Main({emodji}) {
         value={textValue}
         onChange={onSearch}
       />
-      {filter.map((elem) => (
+      {filterDataResults.map((elem) => (
         <Card
           key={elem.title}
           symbol={elem.symbol}
