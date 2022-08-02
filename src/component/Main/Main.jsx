@@ -1,56 +1,32 @@
 import { useState, useEffect } from "react";
 import { Card } from "../Card/Card.jsx";
-import Fuse from "fuse.js";
 
-// function changeUniqKeywords(emodji) {
-//   return emodji.map((elem) => ({
-//     ...elem,
-//     keywords: [...new Set(elem.keywords.split(" "))].join(" "),
-//   }));
-// }
-export function Main({emodji}) {
-
-  // const filterData = changeUniqKeywords(emodji);
-
+export function Main() {
   const [textValue, setTextValue] = useState("");
   const changeName = (event) => setTextValue(event.target.value);
 
   const [filterDataResults, setFilterDataResults] = useState([]);
 
-  
   useEffect(() => {
-    let ignore = false;
-  
-    async function startFetching() {
-      const json = fetch("https://emoji.ymatuhin.workers.dev/?search=textValue")
-      if (!ignore) {
+    let controller = new AbortController();
+    let signal = controller.signal;
+
+    const json = fetch(`https://emoji.ymatuhin.workers.dev/?search=${textValue}`, {signal})
+
         json.then((response) => response.json())
         .then((data) => setFilterDataResults(data));
-      }
-    }
-    startFetching();
-  
+
     return () => {
-      ignore = true;
+      controller.abort();
     };
   }, [textValue]);
 
-  // const fuse = new Fuse(filterData, {
-  //   keys: ["title", "keywords"],
-  //   includeScore: false,
-  // });
-
-  // const results = fuse.search(textValue);
-  
-  // const filterDataResults = textValue
-  //   ? results.map((elem) => elem.item)
-  //   : filterData;
-    
-  const filter = filterDataResults.length > 0 ? filterDataResults : emodji
+const filter = filterDataResults
 
   function onSearch({ currentTarget }) {
     setTextValue(currentTarget.value);
   }
+
   return (
     <main className="main">
       <input
@@ -71,3 +47,23 @@ export function Main({emodji}) {
     </main>
   );
 }
+
+
+// useEffect(() => {
+//   let ignore = false;
+
+//   async function startFetching() {
+//     const json = fetch(`https://emoji.ymatuhin.workers.dev/?search=${textValue}`)
+//     if (!ignore) {
+//       json.then((response) => response.json())
+//       .then((data) => setFilterDataResults(data));
+//     }
+//   }
+//   startFetching();
+
+//   return () => {
+//     ignore = true;
+//   };
+// }, [textValue]);
+
+// const filter = filterDataResults.length > 0 ? filterDataResults : emodji

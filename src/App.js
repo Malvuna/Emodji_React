@@ -8,14 +8,13 @@ let arrEmodji = fetch ("https://emoji.ymatuhin.workers.dev/")
 
 function App() {
 
-  const [emodji, setemodji] = useState([]);
-
-  arrEmodji.then((data) => setemodji(data))
+  // const [emodji, setemodji] = useState([]);
+  // arrEmodji.then((data) => setemodji(data))
 
   return (
     <>
       <Header />
-      <Main emodji={emodji}/>
+      <Main />
       <Footer />
     </>
   );
