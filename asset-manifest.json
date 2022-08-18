@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Emodji_React/static/css/main.0738ac6f.css",
+    "main.js": "/Emodji_React/static/js/main.2d3bd127.js",
+    "index.html": "/Emodji_React/index.html",
+    "main.0738ac6f.css.map": "/Emodji_React/static/css/main.0738ac6f.css.map",
+    "main.2d3bd127.js.map": "/Emodji_React/static/js/main.2d3bd127.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0738ac6f.css",
+    "static/js/main.2d3bd127.js"
+  ]
+}
